@@ -126,12 +126,14 @@ public class PlayerController : MonoBehaviour
         InputAction.Player.Crouch.canceled += OnCrouch;
         InputAction.Mouse.Enable();
         InputAction.Mouse.MouseVector2.performed += OnMouseDelta;
+        InputAction.Mouse.MouseLeftClick.performed += OnMouseLeftClick;
+        InputAction.Mouse.MouseRightClick.performed += OnMouseRightClick;
     }
-
     
-
     private void OnDisable()
     {
+        InputAction.Mouse.MouseRightClick.performed -= OnMouseRightClick;
+        InputAction.Mouse.MouseLeftClick.performed -= OnMouseLeftClick;
         InputAction.Mouse.MouseVector2.performed -= OnMouseDelta;
         InputAction.Mouse.Disable();
         InputAction.Player.Crouch.canceled -= OnCrouch;
@@ -243,6 +245,16 @@ public class PlayerController : MonoBehaviour
         cameraRoot.rotation = Quaternion.Euler(curRotateY, cameraRoot.eulerAngles.y, cameraRoot.eulerAngles.z);
     }
 
+    private void OnMouseLeftClick(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void OnMouseRightClick(InputAction.CallbackContext context)
+    {
+
+    }
+
     private bool IsGrounded()
     {
         //점프 상태가 아니고, 현재 y높이가 목표 y보다 높을 때
@@ -272,12 +284,24 @@ public class PlayerController : MonoBehaviour
     
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other != null)
+        {
+
+        }
+    }
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawCube(groundCheckPosition, boxsize);
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.gray;
+        Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y + 0.55f, transform.position.z), 0.25f);
     }
 #endif
 }
