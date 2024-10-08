@@ -125,6 +125,7 @@ public class Player_Controller : MonoBehaviour
         else
         {
             isMove = false;
+            OffSprinting();
         }
     }
 

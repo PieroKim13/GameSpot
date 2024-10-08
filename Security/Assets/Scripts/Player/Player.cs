@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        player_Data = GameManager.Player_Data;
+        player_Data = GameManager.Data;
 
         sprintCorutine = sprintDerease();
     }

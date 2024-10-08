@@ -9,8 +9,6 @@ public class GaugeBase : MonoBehaviour
     public Color color = Color.white;
 
     protected Slider slider;
-    protected TextMeshProUGUI current;
-    protected TextMeshProUGUI max;
 
     protected float maxValue;
 
@@ -21,11 +19,11 @@ public class GaugeBase : MonoBehaviour
 
         child = transform.GetChild(0);
         Image backGroundImage = child.GetComponent<Image>();
-        backGroundImage.color = new Color(color.r, color.g, color.b, color.a * 0.5f);
+        backGroundImage.color = new Color(color.r, color.g, color.b, color.a*0.3f);
 
         child = transform.GetChild(1);
         Image fillImage = child.GetComponentInChildren<Image>();
-        fillImage.color = color;
+        fillImage.color = new Color(color.r, color.g, color.b, color.a * 0.3f);
     }
 
     protected void OnValueChange(float ratio)

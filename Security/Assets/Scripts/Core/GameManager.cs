@@ -8,10 +8,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Inst { get { Init(); return instance; } }
 
     Player player;
-    Player_Data player_Data;
+    Player_Data data;
 
     public static Player Player => Inst.player;
-    public static Player_Data Player_Data => Inst.player_Data;
+    public static Player_Data Data => Inst.data;
 
     private void Start()
     {
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        player_Data = FindAnyObjectByType<Player_Data>();
+        data = FindAnyObjectByType<Player_Data>();
     }
 
     static void Init()
@@ -44,5 +44,10 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(go);
             instance = go.GetComponent<GameManager>();
         }
+    }
+
+    public void ChangeCursor(bool isChange)
+    {
+
     }
 }
