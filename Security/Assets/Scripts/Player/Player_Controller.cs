@@ -49,6 +49,8 @@ public class Player_Controller : MonoBehaviour
     private void Start()
     {
         currentSpeed = walkSpeed;
+
+        StartCoroutine(ShotRaycast());
     }
 
     private void Awake()
@@ -58,6 +60,8 @@ public class Player_Controller : MonoBehaviour
         cinemachine = GetComponentInChildren<CinemachineVirtualCamera>();
 
         cameraRoot = transform.GetChild(0);
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnEnable()
@@ -249,6 +253,43 @@ public class Player_Controller : MonoBehaviour
         return false;
     }
 
+    private void OnDetectTarget()
+    {
+        Ray ray = new(cameraRoot.position, cameraRoot.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 2.0f))
+        {
+            string layerName = LayerMask.LayerToName(hitInfo.collider.gameObject.layer);
+
+            if (layerName == "Door" || layerName == "Object")   // 레이어가 문이거나 오브젝을 일 때
+            {
+                GameManager.Cross.CrossHairChange(false);
+            }
+            else
+            {
+                GameManager.Cross.CrossHairChange(true);
+            }
+        }
+        else
+            GameManager.Cross.CrossHairChange(true);
+    }
+
+    private IEnumerator ShotRaycast()
+    {
+        int framCount = 0;
+        while (true)
+        {
+            if (framCount >= 15)
+            {
+                OnDetectTarget();
+                framCount = 0;
+            }
+
+            framCount++;
+            yield return null;
+        }
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected() // 선택했을 때
     {
@@ -267,7 +308,7 @@ public class Player_Controller : MonoBehaviour
         // 사거리
         Gizmos.color = Color.red;
         Vector2 from = cameraRoot.position;
-        Vector2 to = cameraRoot.position + cameraRoot.forward * 2.0f;
+        Vector2 to = cameraRoot.transform.position + cameraRoot.forward * 2.0f;
         Gizmos.DrawLine(from, to);
     }
 #endif

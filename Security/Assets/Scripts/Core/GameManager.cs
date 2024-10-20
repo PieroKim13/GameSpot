@@ -9,9 +9,11 @@ public class GameManager : MonoBehaviour
 
     Player player;
     Player_Data data;
+    CrosshairSwitcher cross;
 
     public static Player Player => Inst.player;
     public static Player_Data Data => Inst.data;
+    public static CrosshairSwitcher Cross => Inst.cross;
 
     private void Start()
     {
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour
         }
 
         data = FindAnyObjectByType<Player_Data>();
+        cross = FindAnyObjectByType<CrosshairSwitcher>();
     }
 
     static void Init()
