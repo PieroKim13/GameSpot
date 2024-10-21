@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        data = FindAnyObjectByType<Player_Data>();
+        data = GetComponent<Player_Data>();
         cross = FindAnyObjectByType<CrosshairSwitcher>();
     }
 

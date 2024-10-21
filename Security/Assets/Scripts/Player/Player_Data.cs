@@ -86,19 +86,6 @@ public class Base_Data
 
 public class Player_Data : MonoBehaviour
 {
-    Color color = Color.white;
-
-    CanvasGroup canvansGroup;
-
-    Transform child;
-    Transform hpGauge;
-    Transform staminaGauge;
-
-    TextMeshProUGUI hpText;
-    Slider slider;
-    Image backGroundImgage;
-    Image fillImage;
-
     Player player;
     Base_Data base_Data;
 
@@ -119,7 +106,6 @@ public class Player_Data : MonoBehaviour
             if (isAlive)
             {
                 hp = value;
-                hpText.text = $"{hp}%";
             }
         }
     }
@@ -154,12 +140,10 @@ public class Player_Data : MonoBehaviour
     private void Start()
     {
         Init();
-        Base_Data.on_CurrentStamina_Change += OnValueChange;
     }
 
     private void Awake()
     {
-        GetComponents();
         base_Data = new(this);
     }
 
@@ -167,45 +151,5 @@ public class Player_Data : MonoBehaviour
     {
         player = GameManager.Player;
         base_Data.Init();
-
-        slider.value = Base_Data.CurrentStamina / Base_Data.Base_MaxStamina;
-        backGroundImgage.color = new Color(color.r, color.g, color.b, color.a * 0.3f);
-        fillImage.color = new Color(color.r, color.g, color.b, color.a * 0.3f);
-
-        Base_Data.CurrentHP -= 10.0f;
-        Base_Data.CurrentHP++;
-        hpText.text = $"{hp}";
-    }
-
-    void GetComponents()
-    {
-        canvansGroup = GetComponent<CanvasGroup>();
-
-        hpGauge = transform.GetChild(0);
-        hpText = hpGauge.GetChild(0).GetComponent<TextMeshProUGUI>();
-
-        staminaGauge = transform.GetChild(1);
-        slider = staminaGauge.GetComponent<Slider>();
-        child = staminaGauge.GetChild(0);
-        backGroundImgage = child.GetComponent<Image>();
-        child = staminaGauge.GetChild(1);
-        fillImage = child.GetComponentInChildren<Image>();
-        
-
-    }
-
-    void Open()
-    {
-        canvansGroup.alpha = 1.0f;
-    }
-
-    void Close()
-    {
-        canvansGroup.alpha = 0.0f;
-    }
-
-    void OnValueChange(float ratio)
-    {
-        slider.value = ratio * 0.01f;
     }
 }
