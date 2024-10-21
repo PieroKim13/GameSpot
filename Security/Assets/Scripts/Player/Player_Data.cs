@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 
 [Serializable]
@@ -151,5 +152,15 @@ public class Player_Data : MonoBehaviour
     {
         player = GameManager.Player;
         base_Data.Init();
+    }
+
+    public void HpRecovery(float recoveryValue)
+    {
+        base_Data.CurrentHP += recoveryValue;
+    }
+
+    public void StaminaRecovery(float recoveryValue)
+    {
+        base_Data.CurrentStamina += recoveryValue;
     }
 }

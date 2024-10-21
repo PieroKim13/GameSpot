@@ -46,9 +46,12 @@ public class Player_Controller : MonoBehaviour
     bool isMove = false;
     public bool isStamina = false;
 
+    GameObject hitObject;
+
     private void Start()
     {
         currentSpeed = walkSpeed;
+        hitObject = null;
 
         StartCoroutine(ShotRaycast());
     }
@@ -209,7 +212,16 @@ public class Player_Controller : MonoBehaviour
 
     private void OnMouseLeftClick(InputAction.CallbackContext context)
     {
-
+        if (hitObject != null)
+        {
+            Debug.Log(hitObject.name);
+            Single_Door door = hitObject.transform.parent.GetComponent<Single_Door>();
+            door.OnInteract();
+        }
+        else
+        {
+            Debug.Log("상호작용 가능한 오브젝트가 없습니다.");
+        }
     }
 
     private void OnMOuseRightClick(InputAction.CallbackContext context)
@@ -264,17 +276,22 @@ public class Player_Controller : MonoBehaviour
             if (layerName == "Door" || layerName == "Object")   // 레이어가 문이거나 오브젝을 일 때
             {
                 GameManager.Cross.CrossHairChange(false);
+                hitObject = hitInfo.collider.gameObject;
             }
             else
             {
                 GameManager.Cross.CrossHairChange(true);
+                hitObject = null;
             }
         }
         else
+        {
             GameManager.Cross.CrossHairChange(true);
+            hitObject = null;
+        }
     }
 
-    private IEnumerator ShotRaycast()
+    private IEnumerator ShotRaycast()   // 15프레임마다 레이를 쏜다
     {
         int framCount = 0;
         while (true)
